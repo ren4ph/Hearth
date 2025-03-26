@@ -1,11 +1,18 @@
 export default function About() {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center text-playfair bg-(--antique-white) text-(--jet)">
-        <h1 className="text-4xl font-bold">About Hearth</h1>
-        <p className="mt-2 text-lg">Hearth is a chat platform inspired by the warmth of a bonfire.</p>
-        <a href="/" className="mt-4 bg-(--caramel) text-white py-2 px-4 rounded">
-          Back to Home
-        </a>
+      <main className="flex flex-col min-h-screen items-center bg-(--jet) text-(--jet)">
+        <nav className="navbar min-w-screen height-50 border-b bg-(--antique-white) p-1">
+          <h1 className="title text-6xl font-bold font-playfair text-(--jet)">Hearth</h1>
+        </nav>
+        <section className="bg-(--onyx) text-(--light-text) h-[500px]">
+          <div className="container">
+            <h1 className="text-4xl font-bold font-playfair">About Hearth</h1>
+            <p className="mt-2 text-lg font-poppins pb-4">Hearth is a chat platform inspired by the warmth of a bonfire.</p>
+            <a href="/" className="mt-4 bg-(--caramel) text-white py-2 px-4 rounded font-poppins">
+              Back to Home
+            </a>
+          </div>
+        </section>
       </main>
     );
   }
