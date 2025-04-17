@@ -12,7 +12,7 @@ const playfair = Playfair_Display({
   subsets: ["latin"],
 });
 const trochut = Trochut({
-  variable: "--font-trochut",
+  variable: "--trochut-font",
   weight: "400",
   subsets: ["latin"],
 });
@@ -23,41 +23,42 @@ export const metadata: Metadata = {
 };
 
 import {
+  ClerkLoaded,
+  ClerkLoading,
   ClerkProvider,
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
+  SignOutButton,
 } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { cn } from "@/lib/utils";
+import { ModalProvider } from "@/components/providers/modal-provider";
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <ClerkProvider>
-      <html lang="en" suppressHydrationWarning>
-        <body
-          className={`${cn(
-            poppins.className,
-            "bg-cream dark:bg-dark"
-          )} antialiased`}
-        >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem={false}
-            storageKey="hearth-theme"
-          >
-            {children}
-          </ThemeProvider>
-        </body>
-      </html>
-    </ClerkProvider>
-  );
-}
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+      return (
+        <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
+          <html lang="en" suppressHydrationWarning>
+            <head />
+            <body className={`${cn(poppins.className, "bg-black dark:bg-dark")} antialiased`}>
+              <ClerkLoading>
+                {/* Optional loading UI */}
+                <div className="grid justify-center h-full items-center bg-black">
+                  <div className="loader text-white!"></div>
+                </div>
+              </ClerkLoading>
+              <ClerkLoaded>
+                <ThemeProvider
+                  attribute="class"
+                  defaultTheme="dark"
+                  enableSystem={false}
+                  storageKey="hearth-theme"
+                >
+                  <ModalProvider />
+                  {children}
+                </ThemeProvider>
+              </ClerkLoaded>
+            </body>
+          </html>
+        </ClerkProvider>
+      );
+    }  

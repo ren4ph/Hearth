@@ -1,24 +1,22 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextRequest, NextResponse } from "next/server";
 
-import { NextRequest } from "next/server";
-
-export const config = {
-  matcher: [
-    // Skip Next.js internals and all static files, unless found in search params
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    // Always run for API routes
-    '/(api|trpc)(.*)',
-  ],
-};
-
-// Define routes that should be protected
 const isProtectedRoute = createRouteMatcher([
-  '/',
-  
+  "/",
+  "/setup(.*)",
+  "/servers(.*)",
 ]);
 
 export default clerkMiddleware(async (auth, req: NextRequest) => {
   if (isProtectedRoute(req)) {
-    await auth.protect(); // Protect the route if it matches the defined criteria
+    await auth.protect(); // ✅ Await protection (will redirect or throw if unauthenticated)
   }
+
+  return NextResponse.next(); // ✅ Return a valid response either way
 });
+
+export const config = {
+  matcher: [
+    "/((?!_next|favicon.ico|.*\\..*).*)",
+  ],
+};

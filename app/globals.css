@@ -9,14 +9,18 @@ html, body, :root {
 
 @theme inline {  
   --color-dark: #1D201F;
+  --color-jet: #262927;
   --color-brown: #303634;
   --color-orange: #D98324;
   --color-beige: #EFDCAB;
   --color-cream: #F2F6D0;
+  --color-sslight: #E3DFC8;
+  --color-slight: #F3EFD8;
   --color-light: #FDF4DC;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-playfair: var(--playfair);
+  --font-trochut: var(--trochut-font);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -135,4 +139,49 @@ html, body, :root {
 .logo a h1 {
   color: var(--color-orange);
   text-shadow: 0 0 3px #D98324F7, 0 0 10px #D98324
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Trochut:ital,wght@0,400;0,700;1,400&display=swap');
+.font-trochut {
+  font-family: "Trochut", sans-serif
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+.font-montserrat {
+  font-family: "Montserrat", sans-serif
+}
+
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  height: 45px;
+  aspect-ratio: 4;
+  --_g: no-repeat radial-gradient(farthest-side,#FFF 90%,#0000);
+  background: 
+    var(--_g) left, 
+    var(--_g) right;
+  background-size: 25% 100%;
+  display: grid;
+}
+.loader:before,
+.loader:after {
+  content: "";
+  height: inherit;
+  aspect-ratio: 1;
+  grid-area: 1/1;
+  margin: auto;
+  border-radius: 50%;
+  transform-origin: -100% 50%;
+  background: #FFF;
+  animation: l49 1s infinite linear;
+}
+.loader:after {
+  transform-origin: 200% 50%;
+  --s:-1;
+  animation-delay: -.5s;
+}
+
+@keyframes l49 {
+  58%,
+  100% {transform: rotate(calc(var(--s,1)*1turn))}
 }
