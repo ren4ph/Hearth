@@ -27,6 +27,7 @@ import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/file-upload";
 import { useRouter } from "next/navigation";
 import { useModal } from "@/hooks/use-modal-store";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -37,11 +38,12 @@ const formSchema = z.object({
   }),
 });
 
-export const CreateServerModal = () => {
-  const { isOpen, onClose, type } = useModal();
+export const EditServerModal = () => {
+  const { isOpen, onClose, type, data } = useModal();
   const router = useRouter();
 
-  const isModalOpen = isOpen && type === "createServer";
+  const isModalOpen = isOpen && type === "editServer";
+  const { server } = data;
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -51,14 +53,21 @@ export const CreateServerModal = () => {
     },
   });
 
+  useEffect(() => {
+    if (server) {
+      form.setValue("name", server.name);
+      form.setValue("imageUrl", server.imageUrl);
+    }
+  }, [server, form]);
+
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.post("/api/servers", values);
+      await axios.patch(`/api/servers/${server.id}`, values);
 
       router.refresh();
-      handleClose();
+      onClose();
     } catch (error) {
       console.log(error);
     }
@@ -66,7 +75,6 @@ export const CreateServerModal = () => {
 
   const handleClose = () => {
     onClose();
-    form.reset();
   };
 
   return (
@@ -113,7 +121,7 @@ export const CreateServerModal = () => {
                     <FormControl>
                       <Input
                         disabled={isLoading}
-                        className="bg-beige/95 dark:bg-jet focus-visible:ring-0 text-slight/80 focus-visible:ring-offset-0"
+                        className="bg-beige/95 dark:bg-jet focus-visible:ring-0 text-zinc-700 dark:text-slight focus-visible:ring-offset-0"
                         placeholder="Enter server name"
                         {...field}
                       />
@@ -125,7 +133,7 @@ export const CreateServerModal = () => {
             </div>
             <DialogFooter className="bg-[color-mix(in_srgb,var(--color-cream),var(--color-beige)_60%)] dark:bg-brown px-6 py-4 grid justify-center align-center grid-cols-[1fr] border-t">
               <Button variant="primary" disabled={isLoading} className="w-full">
-                Create
+                Save
               </Button>
             </DialogFooter>
           </form>

@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 interface InviteCodePageProps {
   params: Promise<{
     inviteCode: string;
-  }>
+  }>;
 }
 
 const InviteCodePage = async (props: InviteCodePageProps) => {
@@ -18,7 +18,7 @@ const InviteCodePage = async (props: InviteCodePageProps) => {
   }
 
   if (!params.inviteCode) {
-    return redirect("/")
+    return redirect("/");
   }
 
   const existingServer = await db.server.findFirst({
@@ -26,17 +26,17 @@ const InviteCodePage = async (props: InviteCodePageProps) => {
       inviteCode: params.inviteCode,
       members: {
         some: {
-          profileId: profile.id
-        }
-      }
-    }
-  })
+          profileId: profile.id,
+        },
+      },
+    },
+  });
 
   if (existingServer) {
-    return redirect(`/servers/${existingServer.id}`)
+    return redirect(`/servers/${existingServer.id}`);
   }
 
-  const targetServer = await db.server.findUnique({
+  const targetServer = await db.server.findFirst({
     where: {
       inviteCode: params.inviteCode,
     },
@@ -54,7 +54,7 @@ const InviteCodePage = async (props: InviteCodePageProps) => {
       members: {
         create: [
           {
-            profileId: profile.id
+            profileId: profile.id,
           },
         ],
       },
@@ -62,10 +62,10 @@ const InviteCodePage = async (props: InviteCodePageProps) => {
   });
 
   if (server) {
-    return redirect(`/servers/${server.id}`)
+    return redirect(`/servers/${server.id}`);
   }
 
   return null;
-}
+};
 
 export default InviteCodePage;

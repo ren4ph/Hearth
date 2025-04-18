@@ -9,11 +9,12 @@ datasource db {
 }
 
 model Profile {
-    id       String @id @default(uuid())
-    userId   String @unique
-    name     String
-    imageUrl String @db.Text
-    email    String @db.Text
+    id         String  @id @default(uuid())
+    userId     String  @unique
+    name       String
+    screenName String?
+    imageUrl   String  @db.Text
+    email      String  @db.Text
 
     servers  Server[]
     members  Member[]
@@ -27,7 +28,7 @@ model Server {
     id         String @id @default(uuid())
     name       String
     imageUrl   String @db.Text
-    inviteCode String @unique
+    inviteCode String @db.Text
 
     profileId String
     profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)

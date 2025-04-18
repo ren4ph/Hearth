@@ -6,7 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label"
+import { Label } from "@/components/ui/label";
 import { useModal } from "@/hooks/use-modal-store";
 import { Button } from "@/components/ui/button";
 import { LogOut, X } from "lucide-react";
@@ -14,27 +14,37 @@ import { useOrigin } from "@/hooks/use-origin";
 import { useState } from "react";
 import axios from "axios";
 
+import qs from "query-string";
+
 export const LeaveServerModal = () => {
-  const { onOpen, isOpen, onClose, type, data } = useModal();
+  const { isOpen, onClose, type, data } = useModal();
   const origin = useOrigin();
 
   const isModalOpen = isOpen && type === "leaveServer";
-  const { server } = data
+  const { server } = data;
 
   const [isLoading, setIsLoading] = useState(false);
 
   const onLeave = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.patch(`/api/servers/${server?.id}/leave`)
+      const url = qs.stringifyUrl({
+        url: `/api/members/`,
+        query: {
+          serverId: server?.id,
+        },
+      });
 
-      onClose()
+      const response = await axios.options(url);
+
+      window.location.reload();
+      onClose();
     } catch (error) {
-      console.log(error)
+      console.log(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
@@ -45,9 +55,7 @@ export const LeaveServerModal = () => {
           </DialogTitle>
         </DialogHeader>
         <div className="flex flex-col justify-center p-6 pt-0">
-          <Label
-            className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70 text-center justify-center pb-8"
-          >
+          <Label className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70 text-center justify-center pb-8">
             Last chance
           </Label>
           <div className="flex flex-row justify-center gap-4 *:w-32 *:justify-between! *:text-dark">
@@ -59,7 +67,7 @@ export const LeaveServerModal = () => {
               onClick={onClose}
             >
               Cancel
-              <X className="w-4 h-4 ml-2"/>
+              <X className="w-4 h-4 ml-2" />
             </Button>
             <Button
               variant="destructive"
@@ -73,7 +81,6 @@ export const LeaveServerModal = () => {
             </Button>
           </div>
         </div>
-          
       </DialogContent>
     </Dialog>
   );
