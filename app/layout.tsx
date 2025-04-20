@@ -28,10 +28,10 @@ import {
   ClerkProvider,
   SignOutButton,
 } from "@clerk/nextjs";
-import { Button } from "@/components/ui/button";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { cn } from "@/lib/utils";
 import { ModalProvider } from "@/components/providers/modal-provider";
+import { useEffect } from "react";
 
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

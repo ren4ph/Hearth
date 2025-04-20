@@ -185,3 +185,7 @@ html, body, :root {
   58%,
   100% {transform: rotate(calc(var(--s,1)*1turn))}
 }
+
+body[style*="pointer-events: none"] {
+  pointer-events: auto !important;
+}

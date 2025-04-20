@@ -16,20 +16,20 @@ import axios from "axios";
 
 import { useRouter } from "next/navigation";
 
-export const LeaveServerModal = () => {
+export const DeleteServerModal = () => {
   const { isOpen, onClose, type, data } = useModal();
   const router = useRouter();
 
-  const isModalOpen = isOpen && type === "leaveServer";
+  const isModalOpen = isOpen && type === "deleteServer";
   const { server } = data;
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const onLeave = async () => {
+  const onDelete = async () => {
     try {
       setIsLoading(true);
 
-      const response = await axios.patch(`/api/servers/${server?.id}/leave`);
+      const response = await axios.delete(`/api/servers/${server?.id}`);
 
       window.location.reload();
       onClose();
@@ -47,11 +47,15 @@ export const LeaveServerModal = () => {
       <DialogContent className="bg-light text-dark dark:bg-brown dark:text-sslight p-0 overflow-hidden fixed top-1/2 left-1/2 transform translate-x-[-50%]! translate-y-[-50%]!">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
-            Leave Server
+            Delete Server
           </DialogTitle>
           <DialogDescription className="text-sm font-bold text-zinc-500 dark:text-zinc-400/70 text-center justify-center pb-8">
-            Are you sure you want to leave
-            <span className="font-semibold text-orange"> {server?.name}</span>?
+            Are you sure you want to do this? <br />
+            <span className="font-semibold text-orange">
+              {" "}
+              {server?.name}
+            </span>{" "}
+            will be permanently deleted.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="flex flex-col justify-center p-6 pt-0 bg-beige/60 dark:bg-jet/80">
@@ -71,9 +75,9 @@ export const LeaveServerModal = () => {
               size="sm"
               className="text-xs text-jet mt-4 bg-rose-500/40! hover:bg-rose-500/55! dark:bg-rose-500/70! dark:hover:bg-rose-500/80!"
               disabled={isLoading}
-              onClick={onLeave}
+              onClick={onDelete}
             >
-              Leave Server
+              Delete Server
               <LogOut className="text-rose-500 dark:text-jet/80 h4 w-4 ml-auto" />
             </Button>
           </div>

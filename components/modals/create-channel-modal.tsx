@@ -26,7 +26,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { FileUpload } from "@/components/file-upload";
 import { useRouter } from "next/navigation";
 import { useModal } from "@/hooks/use-modal-store";
 import {
@@ -77,6 +76,7 @@ export const CreateChannelModal = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
+      console.log(server)
       const url = qs.stringifyUrl({
         url: "/api/channels",
         query: {
@@ -96,18 +96,22 @@ export const CreateChannelModal = () => {
   const handleClose = () => {
     form.reset();
     onClose();
+    setTimeout(() => {
+      const root = document.querySelector("body");
+      root?.focus();
+    }, 50);
   };
+  
 
   return (
-    <Dialog open={isModalOpen} onOpenChange={handleClose}>
+    <Dialog key={isModalOpen ? 'open' : 'closed'} open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="bg-light text-dark dark:bg-brown dark:text-slight p-0 overflow-hidden fixed top-1/2 left-1/2 transform translate-x-[-50%]! translate-y-[-50%]!">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold dark:text-light">
-            Customize your server!
+            Create Channel
           </DialogTitle>
-          <DialogDescription className="text-center text-jet dark:text-sslight">
-            Give your server a personality with a name and image. You can always
-            change it later.
+          <DialogDescription className="text-center text-jet dark:text-sslight -mt-1.5">
+            Select a name and type for your channel.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
