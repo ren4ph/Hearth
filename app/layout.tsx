@@ -33,32 +33,37 @@ import { cn } from "@/lib/utils";
 import { ModalProvider } from "@/components/providers/modal-provider";
 import { useEffect } from "react";
 
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-      return (
-        <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
-          <html lang="en" suppressHydrationWarning>
-            <head />
-            <body className={`${cn(poppins.className, "bg-black dark:bg-dark")} antialiased`}>
-              <ClerkLoading>
-                {/* Optional loading UI */}
-                <div className="grid justify-center h-full items-center bg-black">
-                  <div className="loader text-white!"></div>
-                </div>
-              </ClerkLoading>
-              <ClerkLoaded>
-                <ThemeProvider
-                  attribute="class"
-                  defaultTheme="dark"
-                  enableSystem={false}
-                  storageKey="hearth-theme"
-                >
-                  <ModalProvider />
-                  {children}
-                </ThemeProvider>
-              </ClerkLoaded>
-            </body>
-          </html>
-        </ClerkProvider>
-      );
-    }  
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <ClerkProvider
+      publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
+    >
+      <html lang="en" suppressHydrationWarning>
+        <head />
+        <body className={`${cn("bg-black dark:bg-dark")} antialiased`}>
+          <ClerkLoading>
+            {/* Optional loading UI */}
+            <div className="grid justify-center h-full items-center bg-black">
+              <div className="loader text-white!"></div>
+            </div>
+          </ClerkLoading>
+          <ClerkLoaded>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              enableSystem={false}
+              storageKey="hearth-theme"
+            >
+              <ModalProvider />
+              {children}
+            </ThemeProvider>
+          </ClerkLoaded>
+        </body>
+      </html>
+    </ClerkProvider>
+  );
+}

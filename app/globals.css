@@ -151,6 +151,11 @@ html, body, :root {
   font-family: "Montserrat", sans-serif
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap');
+
+.font-cabin {
+  font-family: "Cabin", sans-serif;
+}
 
 /* HTML: <div class="loader"></div> */
 .loader {

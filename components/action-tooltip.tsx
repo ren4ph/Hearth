@@ -23,12 +23,12 @@ export const ActionTooltip = ({
 }: ActionTooltipProps) => {
   return (
     <TooltipProvider>
-      <Tooltip delayDuration={50}>
+      <Tooltip delayDuration={300}>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
         <TooltipContent
           side={side}
           align={align}
-          sideOffset={8}
+          sideOffset={4}
           className="relative text-sm"
         >
           <p className="capitalize">{label.toLowerCase()}</p>

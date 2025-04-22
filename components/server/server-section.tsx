@@ -31,7 +31,7 @@ export const ServerSection = ({
       {role !== MemberRole.GUEST && sectionType === "channels" && (
         <ActionTooltip label="Create Channel" side="top">
           <button
-            onClick={() => onOpen("createChannel", { server })}
+            onClick={() => onOpen("createChannel", { server, channelType })}
             className="cursor-pointer text-jet/30 dark:text-zinc-400 group-hover:text-zinc-600 group-hover:dark:text-zinc-300 transition"
           >
             <Plus className="h-4 w-4" />

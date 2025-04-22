@@ -73,7 +73,7 @@ export const DeleteServerModal = () => {
             <Button
               variant="destructive"
               size="sm"
-              className="text-xs text-jet mt-4 bg-rose-500/40! hover:bg-rose-500/55! dark:bg-rose-500/70! dark:hover:bg-rose-500/80!"
+              className="text-xs text-jet mt-4 bg-rose-500/40! hover:bg-rose-500/55! dark:bg-rose-400/70! dark:hover:bg-rose-400/80!"
               disabled={isLoading}
               onClick={onDelete}
             >

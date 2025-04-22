@@ -97,12 +97,12 @@ export const MembersModal = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-light text-dark overflow-hidden fixed top-1/2 left-1/2 transform translate-x-[-50%]! translate-y-[-50%]!">
+      <DialogContent className="bg-light text-dark dark:bg-brown dark:text-sslight overflow-hidden fixed top-1/2 left-1/2 transform translate-x-[-50%]! translate-y-[-50%]!">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
             Manage Members
           </DialogTitle>
-          <DialogDescription className="text-center text-zinc-500">
+          <DialogDescription className="text-center text-zinc-500 dark:text-sslight/70">
             {server?.members?.length} Members
           </DialogDescription>
         </DialogHeader>
@@ -115,14 +115,16 @@ export const MembersModal = () => {
                   {member.profile.screenName || member.profile.name}
                   {roleIconMap[member.role]}
                 </div>
-                <p className="text-xs text-zinc-500">{member.profile.email}</p>
+                <p className="text-xs text-zinc-500 dark:text-sslight/70">
+                  {member.profile.email}
+                </p>
               </div>
               {server.profileId !== member.profileId &&
                 loadingId !== member.id && (
                   <div className="ml-auto">
                     <DropdownMenu>
                       <DropdownMenuTrigger>
-                        <MoreVertical className="h-4 w-4 text-zinc-500" />
+                        <MoreVertical className="h-4 w-4 text-zinc-500 dark:text-sslight/70" />
                       </DropdownMenuTrigger>
                       <DropdownMenuContent side="right">
                         <DropdownMenuSub>

@@ -4,8 +4,6 @@ import axios from "axios";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import qs from "query-string";
-
 import {
   Dialog,
   DialogContent,
@@ -24,10 +22,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import { useModal } from "@/hooks/use-modal-store";
 import {
   Select,
   SelectContent,
@@ -35,9 +29,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { Mic, Text, Video } from "lucide-react";
-import { ChannelType } from "@prisma/client";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { useModal } from "@/hooks/use-modal-store";
 import { useEffect } from "react";
+import { ChannelType } from "@prisma/client";
+import qs from "query-string";
+import { Mic, Text, Video } from "lucide-react";
 
 const formSchema = z.object({
   name: z
@@ -57,42 +56,41 @@ const typeIconMap = {
   VIDEO: <Video className="h-4 w-4 ml-auto mr-2" />,
 };
 
-export const CreateChannelModal = () => {
+export const EditChannelModal = () => {
   const { isOpen, onClose, type, data } = useModal();
   const router = useRouter();
 
-  const isModalOpen = isOpen && type === "createChannel";
-
-  const { server } = data;
-  const { channelType } = data;
+  const isModalOpen = isOpen && type === "editChannel";
+  const { server, channel } = data;
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      type: channelType || ChannelType.TEXT,
     },
   });
 
   useEffect(() => {
-    if (channelType) {
-      form.setValue("type", channelType);
+    if (channel) {
+      form.setValue("type", channel.type);
+      form.setValue("name", channel.name);
     } else {
+      form.setValue("name", "Name");
       form.setValue("type", ChannelType.TEXT);
     }
-  }, [channelType, form]);
+  }, [channel, form]);
 
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const url = qs.stringifyUrl({
-        url: "/api/channels",
+        url: `/api/channels/${channel?.id}`,
         query: {
           serverId: server?.id,
         },
       });
-      await axios.post(url, values);
+      await axios.patch(url, values);
 
       form.reset();
       router.refresh();
@@ -120,7 +118,7 @@ export const CreateChannelModal = () => {
       <DialogContent className="bg-light text-dark dark:bg-brown dark:text-slight p-0 overflow-hidden fixed top-1/2 left-1/2 transform translate-x-[-50%]! translate-y-[-50%]!">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold dark:text-light">
-            Create your channel
+            Create Channel
           </DialogTitle>
           <DialogDescription className="text-center text-jet dark:text-sslight -mt-1.5">
             Select a name and type for your channel.
@@ -187,7 +185,7 @@ export const CreateChannelModal = () => {
             </div>
             <DialogFooter className="bg-[color-mix(in_srgb,var(--color-cream),var(--color-beige)_60%)] dark:bg-brown px-6 py-4 grid justify-center align-center grid-cols-[1fr] border-t">
               <Button variant="primary" disabled={isLoading} className="w-full">
-                Create
+                Save
               </Button>
             </DialogFooter>
           </form>

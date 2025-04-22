@@ -17,6 +17,7 @@ import { ServerSearch } from "./server-search";
 import { Separator } from "../ui/separator";
 import { ServerSection } from "./server-section";
 import { ServerChannel } from "./server-channel";
+import { ServerMember } from "./server-member";
 
 interface ServerSidebarProps {
   serverId: string;
@@ -129,7 +130,7 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
             ]}
           />
         </div>
-        <Separator className="bg-orange/40 dark:bg-dark rounded-md my-2" />
+        <Separator className="bg-orange/40 dark:bg-orange/40 rounded-md my-2" />
         {!!textChannels?.length && (
           <div className="mb-2">
             <ServerSection
@@ -137,14 +138,70 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
               channelType={ChannelType.TEXT}
               role={role}
               label="Text Channels"
-              server={server}
             />
             {textChannels.map((channel) => (
               <ServerChannel
-                name={channel.name}
-                id={channel.id}
+                key={channel.id}
+                channel={channel}
                 server={server}
-                channelType={channel.type}
+              />
+            ))}
+          </div>
+        )}
+        {!!audioChannels?.length && (
+          <div className="mb-2">
+            <Separator className="max-w-[40%] bg-orange/40 dark:bg-orange/40 rounded-md my-2 ml-[30%]" />
+            <ServerSection
+              sectionType="channels"
+              channelType={ChannelType.AUDIO}
+              role={role}
+              label="Voice Channels"
+            />
+            {audioChannels.map((channel) => (
+              <ServerChannel
+                key={channel.id}
+                channel={channel}
+                server={server}
+              />
+            ))}
+          </div>
+        )}
+        {!!videoChannels?.length && (
+          <div className="mb-2">
+            <Separator className="max-w-[40%] bg-orange/40 dark:bg-orange/40 rounded-md my-1 ml-[30%]" />
+            <ServerSection
+              sectionType="channels"
+              channelType={ChannelType.VIDEO}
+              role={role}
+              label="Video Channels"
+            />
+            {videoChannels.map((channel) => (
+              <ServerChannel
+                key={channel.id}
+                channel={channel}
+                server={server}
+              />
+            ))}
+          </div>
+        )}
+        {!!members?.length && (
+          <div className="mb-2">
+            <Separator className="max-w-[40%] bg-orange/40 dark:bg-orange/40 rounded-md my-1 ml-[30%]" />
+            <ServerSection
+              sectionType="members"
+              role={role}
+              label="Members"
+              server={server}
+            />
+            {members.map((member) => (
+              <ServerMember
+                key={member.id}
+                name={member.profile.screenName || member.profile.name}
+                id={member.id}
+                memberRole={member.role}
+                imgUrl={member.profile.imageUrl}
+                role={role}
+                server={server}
               />
             ))}
           </div>

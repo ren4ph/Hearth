@@ -64,7 +64,7 @@ export const EditServerModal = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/servers/${server.id}`, values);
+      await axios.patch(`/api/servers/${server?.id}`, values);
 
       router.refresh();
       onClose();
@@ -82,11 +82,10 @@ export const EditServerModal = () => {
       <DialogContent className="bg-light text-dark dark:bg-brown dark:text-slight p-0 overflow-hidden fixed top-1/2 left-1/2 transform translate-x-[-50%]! translate-y-[-50%]!">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold dark:text-light">
-            Customize your server!
+            Edit server settings
           </DialogTitle>
           <DialogDescription className="text-center text-jet dark:text-sslight">
-            Give your server a personality with a name and image. You can always
-            change it later.
+            Rather, the image and name
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
