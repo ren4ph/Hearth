@@ -3,15 +3,7 @@ import { db } from "@/lib/db";
 import { ChannelType } from "@prisma/client";
 import { redirect } from "next/navigation";
 import { ServerHeader } from "./server-header";
-import {
-  Hash,
-  Mic,
-  ShieldAlert,
-  ShieldCheck,
-  Text,
-  User,
-  Video,
-} from "lucide-react";
+import { Hash, Mic, ShieldAlert, ShieldCheck, User, Video } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ServerSearch } from "./server-search";
 import { Separator } from "../ui/separator";
@@ -135,6 +127,7 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
           <div className="mb-2">
             <ServerSection
               sectionType="channels"
+              server={server}
               channelType={ChannelType.TEXT}
               role={role}
               label="Text Channels"
@@ -153,6 +146,7 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
             <Separator className="max-w-[40%] bg-orange/40 dark:bg-orange/40 rounded-md my-2 ml-[30%]" />
             <ServerSection
               sectionType="channels"
+              server={server}
               channelType={ChannelType.AUDIO}
               role={role}
               label="Voice Channels"
@@ -171,6 +165,7 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
             <Separator className="max-w-[40%] bg-orange/40 dark:bg-orange/40 rounded-md my-1 ml-[30%]" />
             <ServerSection
               sectionType="channels"
+              server={server}
               channelType={ChannelType.VIDEO}
               role={role}
               label="Video Channels"
@@ -196,10 +191,7 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
             {members.map((member) => (
               <ServerMember
                 key={member.id}
-                name={member.profile.screenName || member.profile.name}
-                id={member.id}
-                memberRole={member.role}
-                imgUrl={member.profile.imageUrl}
+                member={member}
                 role={role}
                 server={server}
               />

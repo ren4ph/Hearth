@@ -32,6 +32,7 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import { cn } from "@/lib/utils";
 import { ModalProvider } from "@/components/providers/modal-provider";
 import { useEffect } from "react";
+import { SocketProvider } from "@/components/providers/socket-provider";
 
 export default function RootLayout({
   children,
@@ -58,8 +59,10 @@ export default function RootLayout({
               enableSystem={false}
               storageKey="hearth-theme"
             >
-              <ModalProvider />
-              {children}
+              <SocketProvider>
+                <ModalProvider />
+                {children}
+              </SocketProvider>
             </ThemeProvider>
           </ClerkLoaded>
         </body>
