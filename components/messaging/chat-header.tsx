@@ -13,7 +13,7 @@ interface ChatHeaderProps {
 }
 
 const roleIconMapBlank = {
-  GUEST: User,
+  GUEST: p,
   MODERATOR: ShieldCheck,
   ADMIN: ShieldAlert,
 };

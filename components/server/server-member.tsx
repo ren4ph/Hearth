@@ -14,7 +14,7 @@ interface ServerSectionProps {
 }
 
 const roleIconMap = {
-  GUEST: <User />,
+  GUEST: null,
   MODERATOR: <ShieldCheck className="h-4 w-4 mr-2 text-orange" />,
   ADMIN: <ShieldAlert className="h-4 w-4 mr-2 text-orange" />,
 };

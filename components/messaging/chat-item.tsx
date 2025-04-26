@@ -71,7 +71,7 @@ interface ChatItemProps {
 const roleIconMap = {
   GUEST: null,
   MODERATOR: <ShieldCheck className="h-4 w-4 ml-2 text-orange" />,
-  ADMIN: <ShieldAlert className="h-4 w-4 ml-2 text-rose-700" />,
+  ADMIN: <ShieldAlert className="h-4 w-4 ml-2 text-green-600" />,
 };
 
 const formSchema = z.object({
@@ -168,7 +168,7 @@ export const ChatItem = ({
   };
 
   return (
-    <div className="relative group flex items-center hover:bg-black/5 p-4 transition w-full">
+    <div className="relative group flex items-center hover:bg-black/5 p-2 pt-3 transition w-full">
       <div className="group flex gap-x-2 items-start w-full">
         <div
           onClick={onMemberClick}
