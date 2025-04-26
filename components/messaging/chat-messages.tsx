@@ -14,6 +14,7 @@ interface ChatMessagesProps {
   name: string;
   member: Member;
   chatId: string;
+  serverId: string;
   apiUrl: string;
   socketUrl: string;
   socketQuery: Record<string, string>;
@@ -26,6 +27,7 @@ export const ChatMessages = ({
   name,
   member,
   chatId,
+  serverId,
   apiUrl,
   socketUrl,
   socketQuery,
@@ -36,6 +38,7 @@ export const ChatMessages = ({
   const queryKey = `chat:${chatId}`;
   const addKey = `chat:${chatId}:messages`;
   const updateKey = `chat:${chatId}:messages:update`;
+  const notifKey = `user:${member.profileId}:notifications`;
 
   const chatRef = useRef<ElementRef<"div">>(null);
   const bottomRef = useRef<ElementRef<"div">>(null);
@@ -47,7 +50,13 @@ export const ChatMessages = ({
       paramKey,
       paramValue,
     });
-  UseChatSocket({ queryKey, addKey, updateKey });
+  UseChatSocket({
+    queryKey,
+    addKey,
+    updateKey,
+    notifKey,
+    serverId,
+  });
   useChatScroll({
     chatRef,
     bottomRef,

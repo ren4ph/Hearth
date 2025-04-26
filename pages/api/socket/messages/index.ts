@@ -83,8 +83,21 @@ export default async function handler(
     })
 
     const channelKey = `chat:${channelId}:messages`;
-    console.log("Emitting message Create to:", `chat:${channelId}:messages:update`, message);
+    console.log("Emitting message Create to:", `chat:${channelId}:messages:update`);
     res?.socket?.server?.io?.emit(channelKey, message)
+    server.members.map(async (memb) => {
+      if (memb.profileId === member.profileId) return;
+      const notifKey = `user:${memb.profileId}:notifications`
+
+      const notif = {
+        id: memb.profileId,
+        message: `${message.member.profile.screenName} in ${server.name}#${channel.name}: ${message.content}`,
+        link: `/servers/${serverId}/channels/${channelId}`,
+      }
+      console.log("Emitting message Notif to: ", notifKey, notif)
+      res?.socket?.server?.io?.emit(notifKey, notif)
+    })
+
 
     return res.status(200).json(message)
   } catch (error) {

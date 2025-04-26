@@ -20,8 +20,9 @@ model Profile {
     members  Member[]
     channels Channel[]
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    createdAt    DateTime       @default(now())
+    updatedAt    DateTime       @updatedAt
+    Notification Notification[]
 }
 
 model Server {
@@ -36,8 +37,9 @@ model Server {
     members  Member[]
     channels Channel[]
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    createdAt    DateTime       @default(now())
+    updatedAt    DateTime       @updatedAt
+    Notification Notification[]
 
     @@index([profileId])
 }
@@ -90,8 +92,8 @@ model Channel {
 
     messages Message[]
 
-    createdAt     DateTime        @default(now())
-    updatedAt     DateTime        @updatedAt
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
     @@index([profileId])
     @@index([serverId])
@@ -153,4 +155,22 @@ model DirectMessage {
 
     @@index([chatId])
     @@index([memberId])
+}
+
+model Notification {
+    id      String  @id @default(cuid())
+    message String
+    link    String?
+
+    read      Boolean  @default(false)
+    createdAt DateTime @default(now())
+
+    profileId String
+    profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+    serverId String
+    server   Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+
+    @@index([profileId])
+    @@index([serverId])
 }

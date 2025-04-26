@@ -68,6 +68,7 @@ const ChannelIdPage = async (props: {
             member={member}
             name={channel.name}
             chatId={channel.id}
+            serverId={server.id}
             type="channel"
             apiUrl="/api/messages"
             socketUrl="/api/socket/messages"
