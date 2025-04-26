@@ -11,6 +11,7 @@ import axios from "axios";
 import { useModal } from "@/hooks/use-modal-store";
 import { EmojiPicker } from "../emoji-picker";
 import { useRouter } from "next/navigation";
+import InputWithAutoSelect from "../input-with-auto-select";
 
 interface ChatInputProps {
   apiUrl: string;
@@ -68,7 +69,7 @@ export const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
                 >
                   <Plus className="dark:text-dark/70 text-jet" />
                 </button>
-                <Input
+                <InputWithAutoSelect
                   disabled={isLoading}
                   className="px-14 py-6 bg-beige/90 border-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-jet/60 dark:text-zinc-200"
                   placeholder={`Message ${type === "chat" ? name : "#" + name}`}
