@@ -1,17 +1,20 @@
+import { MediaRoom } from "@/components/media-room";
 import { ChatHeader } from "@/components/messaging/chat-header";
 import { ChatInput } from "@/components/messaging/chat-input";
+import { ChatMessages } from "@/components/messaging/chat-messages";
 import { getOrCreateChat } from "@/lib/chat";
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 
-const MemberIdPage = async (props: {
-  params: Promise<{ serverId: string; memberId: string }>;
-}) => {
-  const params = await props.params;
+interface MemberIdPageProps {
+  params: { serverId: string; memberId: string };
+  searchParams: {
+    video?: boolean;
+  };
+}
 
-  const para = await params;
-
+const MemberIdPage = async ({ params, searchParams }: MemberIdPageProps) => {
   const profile = await currentProfile();
 
   if (!profile) {
@@ -20,7 +23,7 @@ const MemberIdPage = async (props: {
 
   const server = await db.server.findUnique({
     where: {
-      id: para.serverId,
+      id: params.serverId,
       members: {
         some: {
           profileId: profile.id,
@@ -30,7 +33,7 @@ const MemberIdPage = async (props: {
     include: {
       members: {
         where: {
-          id: para.memberId,
+          id: params.memberId,
         },
         include: {
           profile: true,
@@ -44,7 +47,7 @@ const MemberIdPage = async (props: {
   }
   const currentMember = await db.member.findFirst({
     where: {
-      serverId: para.serverId,
+      serverId: params.serverId,
       profileId: profile.id,
     },
     include: {
@@ -68,22 +71,40 @@ const MemberIdPage = async (props: {
     memberOne.profileId === profile.id ? memberTwo : memberOne;
 
   return (
-    <div className="bg-white dark:bg-brown flex flex-col h-full">
+    <div className="bg-sslight dark:bg-brown flex flex-col h-full">
       <ChatHeader
         member={otherMember}
         server={server}
         role={currentMember.role}
       />
-      <p className="flex-1">Chat Id Page</p>
-      <ChatInput
-        name={otherMember.profile.screenName || otherMember.profile.name}
-        type="chat"
-        apiUrl="/api/socket/messages"
-        query={{
-          channelId: otherMember.id,
-          serverId: otherMember.serverId,
-        }}
-      />
+      {!searchParams.video && (
+        <>
+          <ChatMessages
+            member={currentMember}
+            name={otherMember.profile.name}
+            chatId={chat.id}
+            type="chat"
+            apiUrl="/api/direct-messages"
+            socketUrl="/api/socket/direct-messages"
+            socketQuery={{
+              chatId: chat.id,
+            }}
+            paramKey="chatId"
+            paramValue={chat.id}
+          />
+          <ChatInput
+            name={otherMember.profile.screenName || otherMember.profile.name}
+            type="chat"
+            apiUrl="/api/socket/direct-messages"
+            query={{
+              chatId: chat.id,
+            }}
+          />
+        </>
+      )}
+      {searchParams.video && (
+        <MediaRoom chatId={chat.id} video={true} audio={true} />
+      )}
     </div>
   );
 };

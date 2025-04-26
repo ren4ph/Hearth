@@ -11,9 +11,15 @@ html, body, :root {
   --color-dark: #1D201F;
   --color-jet: #262927;
   --color-brown: #303634;
+  --color-grey: #404644;
   --color-orange: #D98324;
-  --color-beige: #EFDCAB;
+  --color-beige: #E1CDAE;
   --color-cream: #F2F6D0;
+  --color-ssssssslight: #938F78;
+  --color-sssssslight: #A39F88;
+  --color-ssssslight: #B3AF98;
+  --color-sssslight: #C3BFA8;
+  --color-ssslight: #D3CFB8;
   --color-sslight: #E3DFC8;
   --color-slight: #F3EFD8;
   --color-light: #FDF4DC;

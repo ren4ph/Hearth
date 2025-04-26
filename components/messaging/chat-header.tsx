@@ -4,6 +4,7 @@ import { MobileToggle } from "../mobile-toggle";
 import { Avatar } from "../ui/avatar";
 import { UserAvatar } from "../user-avatar";
 import { SocketIndicator } from "../ui/socket-indicator";
+import { ChatVideoButton } from "./chat-video-button";
 
 interface ChatHeaderProps {
   member: Member & { profile: Profile };
@@ -34,6 +35,7 @@ export const ChatHeader = ({ member, server, role }: ChatHeaderProps) => {
         </div>
       </div>
       <div className="ml-auto flex items-center">
+        <ChatVideoButton />
         <SocketIndicator />
       </div>
     </div>
