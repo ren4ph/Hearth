@@ -13,7 +13,7 @@ interface ChatHeaderProps {
 }
 
 const roleIconMapBlank = {
-  GUEST: p,
+  GUEST: null,
   MODERATOR: ShieldCheck,
   ADMIN: ShieldAlert,
 };
@@ -31,7 +31,7 @@ export const ChatHeader = ({ member, server, role }: ChatHeaderProps) => {
         <UserAvatar src={member.profile.imageUrl} className="md:w-8 md:h-8" />
         <div className="flex flex-row justify-start items-center gap-x-1">
           {member.profile.screenName || member.profile.name}
-          <Icon className="my-auto mb-1" />
+          {Icon && <Icon className="my-auto mb-1" />}
         </div>
       </div>
       <div className="ml-auto flex items-center">
